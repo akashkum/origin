@@ -1,12 +1,12 @@
 DROP TABLE program_offered;
 create table program_offered(
-Program_Name varchar2(5) Constraint program_offered_pk primary key, 
+Program_Name varchar2(10) Constraint program_offered_pk primary key, 
 description varchar2(20), 
 applicant_eligibility varchar2(40) , 
 duration number, 
 degree_certificate_offered varchar2(10)
 );
-
+alter table program_offered modify (Program_Name varchar2(10))
 
 insert into PROGRAM_OFFERED values('Btech','Engineering','Above 80% in SSC',4,'UG Certi');
 insert into PROGRAM_OFFERED values('Mtech','Engineering','Above 80% in Btech',2,'PG Certi');
@@ -31,6 +31,8 @@ insert into PROGRAM_OFFERED values('MBA','HR','SSC Passed',2,'PG Certi');
 insert into PROGRAM_OFFERED values('BCom','Accounts','SSC Passed',4,'UG Certi');
 insert into PROGRAM_OFFERED values('BA','History','SSC Passed',3,'UG Certi');
 insert into PROGRAM_OFFERED values('BDS','Dental','SSC Passed',4,'UG Certi');
+
+
 DROP TABLE program_Scheduled;
 create table program_Scheduled ( 
 		Scheduled_program_id varchar2(5) Constraint program_Scheduled_pk primary key, 
@@ -40,6 +42,8 @@ create table program_Scheduled (
 		end_date date, 
 		sessions_per_week number
 );
+
+
 insert into PROGRAM_SCHEDULED values('E101','Btech','Mumbai','02-Apr-2018','02-Apr-2022',5);
 insert into PROGRAM_SCHEDULED values('E201','Btech','Banglore','02-Apr-2018','02-Apr-2022',5);
 insert into PROGRAM_SCHEDULED values('E301','Btech','Pune','02-Apr-2018','02-Apr-2022',5);

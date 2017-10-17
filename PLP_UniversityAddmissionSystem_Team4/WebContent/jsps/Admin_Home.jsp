@@ -9,7 +9,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Admin</title>
 		
-		 <style type="text/css">
+		<style type="text/css">
 			#leftside{
 				position:fixed;
 				left:0%;
@@ -25,6 +25,14 @@
 				height:auto;
 				background-color:#FFFACD;
 			}
+			/* #fillright{
+				/* background-image:url("/PLP_UniversityAddmissionSystem_Team4/WebContent/images/frontpage.jpg"); */
+				position:absolute;
+				right:0%;	
+				width:79%;	
+				height:100;
+				background-color:#FFFACD;
+			} */
 			#top{
 				text-align:center;
 					
@@ -64,14 +72,18 @@
 			input{
 				background-color: #FFFACD;
 			}
+			[name="error"]{
+				color:red;
+			}
 	</style>
 	
 	</head>
 	<body>
-		<h3 id="top">Welcome to Admin ${loginId}</h3>		
+		<h3 id="top">Welcome to Admin ${loginId}</h3>	
+	<!--Left side navigation Bar  -->	
 		<div id="leftside">
 			<table>
-			<tr><td><button onclick="window.location.href='HomePage.do';" ><b>Back To Home Page </b></button></td></tr>
+			<tr><td><button onclick="window.location.href='HomePage.do';" ><b>Home</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='AdminSheduledProgramlist.do';" ><b>Scheduled Program</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='AdminOfferedProgramlist.do';" ><b>Offered Program</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='SearchApplicantPage.do';" ><b>Applicant Details</b></button></td></tr>
@@ -79,25 +91,28 @@
 				<tr><td><button onclick="window.location.href='AdminDeleteOffered.do';"> <b>Delete Program Offered</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='getScheduleProgramPage.do';" ><b>Schedule A Program</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='DeleteScheduledProgramPage.do';" ><b>Delete Scheduled Program </b></button></td></tr>
-				<tr><td><button onclick="window.location.href='UpdateScheduledProgramPage.do';" ><b>Update Scheduled Program </b></button></td></tr>
+				<tr><td><button onclick="window.location.href='UpdateScheduledProgramPage.do';" ><b>Update Schedule </b></button></td></tr>
 			
 			</table>
 		</div>
 		
+		
+		<!-- Right side dispaly Page -->	
+		
 		<div id="rightside">
 		
-		<c:if test="${home eq true}" >
-		<div id="back">
-		</div>
-		</c:if>
-		
-		
+			<c:if test="${home eq true}" >
+				<div id="back">
+				</div>
+			</c:if>
 		
 			<c:if test="${scheduleList ne null }">
-			<c:if test="${msg eq true}">
-				<h2 id="tablehead">Scheduled Program Deleted.Please see the Updated List</h2>
-			</c:if>
+				<c:if test="${msg eq true}">
+					<h2 id="tablehead">Scheduled Program Deleted.Please see the Updated List</h2>
+				</c:if>
+			
 				<h2 align="center">Scheduled Programs</h2>
+			
 				<table border="1" id="scheduleList" align="center">
 						<tr>
 							<th>Program Id</th>
@@ -106,6 +121,8 @@
 							<th>Start date</th>
 							<th>End Date</th>
 							<th>Session per Week</th>
+							<c:if test="${delete eq true}"><th>Delete</th></c:if>								
+							    <c:if test="${update eq true}"><th>Update</th></c:if>							
 						</tr>
 							<c:forEach items="${scheduleList }" var="scheduledPrg">
 							<tr>
@@ -119,8 +136,7 @@
 							    <c:if test="${update eq true}"><td><a href="FinalUpdateScheduledProgramPage.do?pId=${scheduledPrg.scheduledProgramId}"><b>Update</b></a></td></c:if>
 							</tr>
 						</c:forEach>
-					</table>
-					
+				</table>				
 			</c:if>
 			
 			
@@ -129,6 +145,7 @@
 					<c:if test="${msg eq true}">
 						<h2 id="tablehead">Selected Program Deleted. See the Updated List</h2>
 					</c:if>	
+					
 					<table border="1" id="offrdlist" align="center">
 						<tr>
 							<th>Program Name</th>
@@ -136,6 +153,8 @@
 							<th>Eligibility</th>
 							<th>Duration(in Months)</th>
 							<th>Degree Certificate</th>
+							<c:if test="${delete eq true}"><th>Delete</th></c:if>	
+								<c:if test="${schedule eq true}"><th>Schedule</th></c:if>				
 						</tr>
 						<c:forEach items="${offeredList}" var="offeredprogram">
 							<tr>
@@ -148,34 +167,53 @@
 								<c:if test="${schedule eq true}"><td><a href="FinalScheduleProgramPage.do?prog=${offeredprogram.programName}"><b>Schedule</b></a></td></c:if>				
 							</tr>
 						</c:forEach>
-					</table>
-					
+					</table>				
 			</c:if >
 			
 			<c:if test="${var eq true}">
-				<h2 id="tablehead">Enter Programm Offered Details</h2>
+				<h2 id="tablehead">Enter Program Offered Details</h2>
 				
 			<table border="1" align="center" >
 				<sf:form action="addProgramOffered.do" modelAttribute="poffered" method="post">
-			  <tr><td> Enter Program Name :</td><td>
-			   <sf:input path="programName"  type="text" />
-			   <sf:errors path="programName" name="error"></sf:errors></td></tr>
+			  	<tr>
+				  	<td> Enter Program Name :</td>
+				  	<td>
+				   		<sf:input path="programName"  type="text" placeholder="Enter a Program Name"/><br/>
+				   		<sf:errors path="programName" name="error" type="text"></sf:errors>
+				   	</td>
+			   	</tr>
 				
-				<tr><td>Enter Description :</td><td>
-				<sf:input path="description" type="text" />
-				<sf:errors path="description" name="error"></sf:errors></td></tr>
+				<tr>
+					<td>Enter Description :</td>
+					<td>
+						<sf:input path="description" type="text" /><br/>
+						<sf:errors path="description" name="error"></sf:errors>
+					</td>
+				</tr>
 				
-				<tr><td>Enter Eligiblity :</td><td>
-				<sf:input path="applicantEligiblity" type="text"/>
-				<sf:errors path="applicantEligiblity" name="error"></sf:errors></td></tr>
+				<tr>
+					<td>Enter Eligibility :</td>
+					<td>
+						<sf:input path="applicantEligiblity" type="text"/><br/>
+						<sf:errors path="applicantEligiblity" name="error"></sf:errors>
+					</td>
+				</tr>
 				
-			    <tr><td>Enter Programm Duration :</td><td> 
-				<sf:input path="duration" type="text"/>
-				<sf:errors path="duration" type="text" ></sf:errors></td></tr>
+			    <tr>
+				    <td>Enter Program Duration :</td>
+				    <td> 
+						<sf:input path="duration" /><br/>
+						<sf:errors path="duration" type="text" name="error" ></sf:errors>
+					</td>
+				</tr>
 				
-				 <tr><td>Enter Degree : </td><td>
-				<sf:input path="degreeCertificate" type="text"/>
-				<sf:errors path="degreeCertificate" type="text" ></sf:errors></td></tr>
+				<tr>
+				<td>Enter Degree : </td>
+				 <td>
+				<sf:input path="degreeCertificate" type="text"/><br/>
+				<sf:errors path="degreeCertificate" type="text" name="error" ></sf:errors>
+				</td>
+				</tr>
 				
 				<tr><td><input type="reset" value="Reset"/></td><td><input type="submit" value="Add Programm"/></td></tr>
 				</sf:form>
@@ -211,31 +249,52 @@
 			</c:if>
 			
 			<h2 id="tablehead">Schedule a Program</h2>
+			
 			<table border="1" align="center">
+			
 				<sf:form action="addProgramSchedule.do" modelAttribute="pschedule" method="post">
-			  <tr><td> Enter Program ID :</td><td>
-			   	<sf:input path="scheduledProgramId"  type="text" />
-			   	<sf:errors path="scheduledProgramId" name="error"></sf:errors></td></tr>
+			  		<tr>
+			  			<td> Enter Program ID :</td>
+			  			<td>
+						   	<sf:input path="scheduledProgramId"  type="text" /><br/>
+						   	<sf:errors path="scheduledProgramId" name="error"></sf:errors>
+						</td>
+					</tr>
 				
-				<tr><td>Enter Program Name :</td><td>
-				<sf:input path="programName" type="text" value="${prog}" readonly="true"/>
-				<sf:errors path="programName" name="error"></sf:errors></td></tr>
+					<tr>
+						<td>Enter Program Name :</td>
+						<td>
+							<sf:input path="programName" type="text" value="${prog}" readonly="true"/>
+						</td>
+					</tr>
 				
-				<tr><td>Enter Location :</td><td>
-				<sf:input path="location" type="text"/>
-				<sf:errors path="location" name="error"></sf:errors></td></tr>
+					<tr>
+						<td>Enter Location :</td>
+						<td>
+							<sf:input path="location" type="text"/><br/>
+							<sf:errors path="location" name="error"></sf:errors>
+						</td>
+					</tr>
 				
-			    <tr><td>Enter Start Date :</td><td> 
-				<sf:input path="startDate" type="text"/>
-				<sf:errors path="startDate" type="text" ></sf:errors></td></tr>
+			    	<tr>
+				    	<td>Enter Start Date :</td>
+				    	<td> 
+							<sf:input path="startDate" type="text"/><br/>
+							<sf:errors path="startDate" type="text" name="error"></sf:errors>
+						</td>
+					</tr>
 				
-				 <tr><td>Enter End Date : </td><td>
-				<sf:input path="endDate" type="text"/>
-				<sf:errors path="endDate" type="text" ></sf:errors></td></tr>
+				 	<tr>
+				 		<td>Enter End Date : </td><td>
+							<sf:input path="endDate" type="text"/><br/>
+							<sf:errors path="endDate" type="text" name="error"></sf:errors>
+						</td>
+					</tr>
 				
 				<tr><td>Enter No. Of Sessions per week: </td><td>
-				<sf:input path="sessionPerWeek" type="text"/>
-				<sf:errors path="sessionPerWeek" type="text" ></sf:errors></td></tr>
+				<sf:input path="sessionPerWeek" type="text"/><br/>
+				<sf:errors path="sessionPerWeek" type="text" name="error"></sf:errors></td></tr>
+				
 				<input type="hidden" name="prog" value="${prog}">
 				<tr><td><input type="reset" value="Reset"/></td>
 				<td><input type="submit" value="Schedule Programm"/></td></tr>
@@ -328,15 +387,16 @@
 				
 			    <tr><td>Update Start Date :</td><td> 
 				<sf:input path="startDate" type="text" value="${scheduledPrg.startDate}"/>
-				<sf:errors path="startDate" type="text" ></sf:errors></td></tr>
+				<sf:errors path="startDate" type="text" name="error"></sf:errors></td></tr>
 				
 				 <tr><td>Update End Date : </td><td>
 				<sf:input path="endDate" type="text" value="${scheduledPrg.endDate}"/>
-				<sf:errors path="endDate" type="text" ></sf:errors></td></tr>
+				<sf:errors path="endDate" type="text" name="error"></sf:errors></td></tr>
 				
 				<tr><td>Update No. Of Sessions per week: </td><td>
 				<sf:input path="sessionPerWeek" type="text" value="${scheduledPrg.sessionPerWeek}"/>
-				<sf:errors path="sessionPerWeek" type="text" ></sf:errors></td></tr>
+				<sf:errors path="sessionPerWeek" type="text" name="error"></sf:errors></td></tr>
+				
 				<%-- <input type="hidden" name="prog" value="${prog}"> --%>
 				<tr><td><input type="reset" value="Reset"/></td>
 				<td><input type="submit" value="Update Scheduled Programm"/></td></tr>
@@ -344,9 +404,10 @@
 				</sf:form>
 				</table>
 				</c:if>
-			<c:if test="${msg eq true}"><h2>Scheduled Programm has been Updated</h2></c:if>
+			<c:if test="${msg eq true}"><h2 id="tablehead">Scheduled Programm has been Updated</h2></c:if>
 			</c:if>	
 		</div>
+		
 	</body>
 </html>
 

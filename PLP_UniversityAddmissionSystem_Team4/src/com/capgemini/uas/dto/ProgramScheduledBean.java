@@ -6,6 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="PROGRAM_SCHEDULED")
@@ -13,17 +18,23 @@ public class ProgramScheduledBean {
 	
 	@Id
 	@Column(name="SCHEDULED_PROGRAM_ID")
+	@Size(min=3,max=5,message="Min 3 & Max 5 character Alpha Numeric")
 	private String scheduledProgramId;
 	
 	@Column(name="PROGRAM_NAME")
+	@Size(min=5,max=10,message="Min 5 and Max 10 characters")
 	private String programName;
 	
 	@Column(name="LOCATION")
 	private String location;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd-MMM-yyyy")
 	@Column(name="START_DATE")
 	private Date startDate;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd-MMM-yyyy")
 	@Column(name="END_DATE")
 	private Date endDate;
 	

@@ -27,5 +27,6 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 		<property name="prefix"><value>/jsps/</value></property>
 		<property name="suffix"><value>.jsp</value></property>
   </bean> 
+ 
 </beans>
 

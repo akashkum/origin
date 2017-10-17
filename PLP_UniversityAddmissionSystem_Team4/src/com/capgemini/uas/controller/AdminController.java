@@ -3,6 +3,7 @@ package com.capgemini.uas.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,7 +29,6 @@ public class AdminController {
 	@RequestMapping()
 	public ModelAndView getAdminHomePage(){
 		ModelAndView mAndV = new ModelAndView();
-		
 		mAndV.setViewName("Admin_Home");
 		return mAndV;
 	}
@@ -75,14 +75,14 @@ public class AdminController {
 		mAndV.setViewName("Admin_Home");
 		return mAndV;
 	}
-		
+	
 	@RequestMapping(value="/addProgramOffered.do",method=RequestMethod.POST)
-	public ModelAndView addProgramOffered(@ModelAttribute("poffered") ProgramOfferedBean pbean,BindingResult result){
+	public ModelAndView addProgramOffered(@ModelAttribute("poffered") @Valid ProgramOfferedBean pbean,BindingResult result){
 		ModelAndView mAndV = new ModelAndView();
-	if(result.hasErrors())
-				{   ProgramOfferedBean poffered=new ProgramOfferedBean();
-		        mAndV.addObject("poffered", poffered);
-		        mAndV.addObject("var", true);
+		
+			if(result.hasErrors())
+				{   
+		        	mAndV.addObject("var", true);
 					mAndV.setViewName("Admin_Home");
 				}
 			else
@@ -98,6 +98,8 @@ public class AdminController {
 				}
 		return mAndV;
 	}	
+		
+		
 		
 		
 
@@ -175,15 +177,12 @@ public class AdminController {
         return mAndV;				
 	}
 
-	
-		
-		
-		
+	//@ModelAttribute("poffered") @Valid ProgramOfferedBean pbean,BindingResult result
 		@RequestMapping(value="/addProgramSchedule.do",method=RequestMethod.POST)
-		public ModelAndView addProgramSchedule(@ModelAttribute("pschedule") ProgramScheduledBean pbean,BindingResult result,@RequestParam("prog") String prog) throws UniversityException{
+		public ModelAndView addProgramSchedule(@ModelAttribute("pschedule") @Valid ProgramScheduledBean pbean,BindingResult result,@RequestParam("prog") String prog) throws UniversityException{
 		ModelAndView mAndV = new ModelAndView();		
 		
-		if(result.hasErrors()){  
+		if(result.hasErrors()){
 			List<ProgramScheduledBean> pscheduledList = service.getScheduledProgListForProg(prog);
 			if(pscheduledList.isEmpty()){
 				mAndV.addObject("key",0);
@@ -192,8 +191,8 @@ public class AdminController {
 				mAndV.addObject("key",1);
 				}
 			
-				ProgramScheduledBean pschedule=new ProgramScheduledBean();
-		        mAndV.addObject("pschedule", pschedule);
+				//ProgramScheduledBean pschedule=new ProgramScheduledBean();
+		        //mAndV.addObject("pschedule", pschedule);
 		        mAndV.addObject("pscheduleform",true);
 		        mAndV.addObject("prog",prog);
 				mAndV.setViewName("Admin_Home");
@@ -370,10 +369,10 @@ public class AdminController {
 		}
 			
 				
-				@RequestMapping(value="/FinalUpdateScheduledProgram.do",method=RequestMethod.POST)
+			@RequestMapping(value="/FinalUpdateScheduledProgram.do",method=RequestMethod.POST)
 			public ModelAndView FinalUpdateScheduledProgram(@ModelAttribute("schedule") ProgramScheduledBean schedule,BindingResult result) throws UniversityException {		
 				ModelAndView mAndV = new ModelAndView();
-				
+				System.out.println(schedule);
 				service.updateScheduledProg(schedule.getScheduledProgramId(),schedule);
 				mAndV.addObject("updateform", true);
 				mAndV.addObject("msg", true);
