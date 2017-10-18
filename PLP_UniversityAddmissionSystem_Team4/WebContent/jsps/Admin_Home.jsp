@@ -34,9 +34,11 @@
 				background-color:#FFFACD;
 			} */
 			#top{
-				text-align:center;
+				text-align:center; 
 					
 			}
+			
+			
 			#back{
 			position:absolute;
 				right:0%;	
@@ -79,11 +81,15 @@
 	
 	</head>
 	<body>
-		<h3 id="top">Welcome to Admin ${loginId}</h3>	
+	
+	<div id="top">
+		<h3 >Welcome to Admin ${loginId}</h3></div>
+		
+	
 	<!--Left side navigation Bar  -->	
 		<div id="leftside">
 			<table>
-			<tr><td><button onclick="window.location.href='HomePage.do';" ><b>Home</b></button></td></tr>
+			<tr><td><button onclick="window.location.href='HomePage.do';" ><b>HomePage</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='AdminSheduledProgramlist.do';" ><b>Scheduled Program</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='AdminOfferedProgramlist.do';" ><b>Offered Program</b></button></td></tr>
 				<tr><td><button onclick="window.location.href='SearchApplicantPage.do';" ><b>Applicant Details</b></button></td></tr>
@@ -178,15 +184,16 @@
 			  	<tr>
 				  	<td> Enter Program Name :</td>
 				  	<td>
-				   		<sf:input path="programName"  type="text" placeholder="Enter a Program Name"/><br/>
+				   		<sf:input path="programName"  type="text" /><a title="Program Name to be typed here"><img src="images/comment.png" /></a><br/>
 				   		<sf:errors path="programName" name="error" type="text"></sf:errors>
+				   		
 				   	</td>
 			   	</tr>
 				
 				<tr>
 					<td>Enter Description :</td>
 					<td>
-						<sf:input path="description" type="text" /><br/>
+						<sf:input path="description" type="text" /><a title="Program in Details"><img src="images/comment.png" /></a><br/>
 						<sf:errors path="description" name="error"></sf:errors>
 					</td>
 				</tr>
@@ -194,7 +201,7 @@
 				<tr>
 					<td>Enter Eligibility :</td>
 					<td>
-						<sf:input path="applicantEligiblity" type="text"/><br/>
+						<sf:input path="applicantEligiblity" type="text"/><a title="Prerequisite Degree"><img src="images/comment.png" /></a><br/>
 						<sf:errors path="applicantEligiblity" name="error"></sf:errors>
 					</td>
 				</tr>
@@ -202,7 +209,7 @@
 			    <tr>
 				    <td>Enter Program Duration :</td>
 				    <td> 
-						<sf:input path="duration" /><br/>
+						<sf:input path="duration" required="true" /><a title="Program Duration in Months"><img src="images/comment.png" /></a><br/>
 						<sf:errors path="duration" type="text" name="error" ></sf:errors>
 					</td>
 				</tr>
@@ -210,7 +217,7 @@
 				<tr>
 				<td>Enter Degree : </td>
 				 <td>
-				<sf:input path="degreeCertificate" type="text"/><br/>
+				<sf:input path="degreeCertificate" type="text"/><a title="Ex.B.Tech,M.Tech"><img src="images/comment.png" /></a><br/>
 				<sf:errors path="degreeCertificate" type="text" name="error" ></sf:errors>
 				</td>
 				</tr>
@@ -256,43 +263,43 @@
 			  		<tr>
 			  			<td> Enter Program ID :</td>
 			  			<td>
-						   	<sf:input path="scheduledProgramId"  type="text" /><br/>
-						   	<sf:errors path="scheduledProgramId" name="error"></sf:errors>
+						   	<sf:input path="scheduledProgramId"  type="text" required="true"/><a title="Program Schedule Id should be unique"><img src="images/comment.png" /></a><br/>
+						   	<sf:errors path="scheduledProgramId"  type="text" name="error"></sf:errors>
 						</td>
 					</tr>
 				
 					<tr>
 						<td>Enter Program Name :</td>
 						<td>
-							<sf:input path="programName" type="text" value="${prog}" readonly="true"/>
+							<sf:input path="programName" type="text" value="${prog}" readonly="true"/><a title="Name of the Program "><img src="images/comment.png" /></a>
 						</td>
 					</tr>
 				
 					<tr>
 						<td>Enter Location :</td>
 						<td>
-							<sf:input path="location" type="text"/><br/>
-							<sf:errors path="location" name="error"></sf:errors>
+							<sf:input path="location" type="text" required="true"/><a title="Location where it is to be scheduled"><img src="images/comment.png" /></a><br/>
+							<sf:errors path="location"  type="text" name="error"></sf:errors>
 						</td>
 					</tr>
 				
 			    	<tr>
 				    	<td>Enter Start Date :</td>
 				    	<td> 
-							<sf:input path="startDate" type="text"/><br/>
+							<sf:input path="startDate" type="text" required="true"/><a title="Date in the prescribed Format"><img src="images/comment.png" /></a><br/>
 							<sf:errors path="startDate" type="text" name="error"></sf:errors>
 						</td>
 					</tr>
 				
 				 	<tr>
 				 		<td>Enter End Date : </td><td>
-							<sf:input path="endDate" type="text"/><br/>
+							<sf:input path="endDate" type="text" required="true"/><a title="Date in the prescribed Format"><img src="images/comment.png" /></a><br/>
 							<sf:errors path="endDate" type="text" name="error"></sf:errors>
 						</td>
 					</tr>
 				
 				<tr><td>Enter No. Of Sessions per week: </td><td>
-				<sf:input path="sessionPerWeek" type="text"/><br/>
+				<sf:input path="sessionPerWeek" type="text" required="true" pattern="[1-9]*"/><a title="In Integer"><img src="images/comment.png" /></a><br/>
 				<sf:errors path="sessionPerWeek" type="text" name="error"></sf:errors></td></tr>
 				
 				<input type="hidden" name="prog" value="${prog}">
@@ -374,27 +381,27 @@
 			<table border="1" align="center">
 				<sf:form action="FinalUpdateScheduledProgram.do" modelAttribute="schedule" method="post">
 			  <tr><td> Program ID :</td><td>
-			   	<sf:input path="scheduledProgramId"  type="text" value="${schedule.scheduledProgramId}" readonly="true" />
+			   	<sf:input path="scheduledProgramId"  type="text" value="${schedule.scheduledProgramId}" readonly="true" /><a title="Program Id"><img src="images/comment.png" /></a>
 			   	<sf:errors path="scheduledProgramId" name="error"></sf:errors></td></tr>
 				
 				<tr><td>Program Name :</td><td>
-				<sf:input path="programName" type="text" value="${schedule.programName}" readonly="true"/>
+				<sf:input path="programName" type="text" value="${schedule.programName}" readonly="true"/><a title="Program Name to be updated"><img src="images/comment.png" /></a>
 				<sf:errors path="programName" name="error"></sf:errors></td></tr>
 				
 				<tr><td>Update Location :</td><td>
-				<sf:input path="location" type="text" value="${scheduledPrg.location}" />
+				<sf:input path="location" type="text" value="${scheduledPrg.location}" /><a title="Location to be Entered"><img src="images/comment.png" /></a>
 				<sf:errors path="location" name="error"></sf:errors></td></tr>
 				
 			    <tr><td>Update Start Date :</td><td> 
-				<sf:input path="startDate" type="text" value="${scheduledPrg.startDate}"/>
+				<sf:input path="startDate" type="text" value="${scheduledPrg.startDate}"/><a title="Date in the prescribed Format"><img src="images/comment.png" /></a>
 				<sf:errors path="startDate" type="text" name="error"></sf:errors></td></tr>
 				
 				 <tr><td>Update End Date : </td><td>
-				<sf:input path="endDate" type="text" value="${scheduledPrg.endDate}"/>
+				<sf:input path="endDate" type="text" value="${scheduledPrg.endDate}"/><a title="Date in the prescribed Format"><img src="images/comment.png" /></a>
 				<sf:errors path="endDate" type="text" name="error"></sf:errors></td></tr>
 				
 				<tr><td>Update No. Of Sessions per week: </td><td>
-				<sf:input path="sessionPerWeek" type="text" value="${scheduledPrg.sessionPerWeek}"/>
+				<sf:input path="sessionPerWeek" type="text" value="${scheduledPrg.sessionPerWeek}"/><a title="In Integer"><img src="images/comment.png" /></a>
 				<sf:errors path="sessionPerWeek" type="text" name="error"></sf:errors></td></tr>
 				
 				<%-- <input type="hidden" name="prog" value="${prog}"> --%>

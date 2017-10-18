@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -26,6 +29,8 @@ public class ProgramScheduledBean {
 	private String programName;
 	
 	@Column(name="LOCATION")
+	@NotEmpty(message="Should Not be Empty")
+	@Size(min=3,max=15,message="Min 3 and Max 15 characters")
 	private String location;
 	
 	@Temporal(TemporalType.DATE)
@@ -39,6 +44,7 @@ public class ProgramScheduledBean {
 	private Date endDate;
 	
 	@Column(name="SESSIONS_PER_WEEK")
+	@Min(1) @Max(50)
 	private int sessionPerWeek;
 	
 	public ProgramScheduledBean() {
